@@ -129,28 +129,3 @@ class DriverCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = DriverCreateForm
     template_name = "taxi/driver_form.html"
 
-
-class CarAssignUpdateView(LoginRequiredMixin, generic.UpdateView):
-    model = Car
-    success_url = reverse_lazy("taxi:driver-list")
-    template_name = "taxi/car_detail.html"
-    form_class = CarAssignUpdateForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["form"] = CarAssignUpdateForm()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        print("here")
-        if not request.user.is_authenticated:
-            return self.get(request, *args, **kwargs)
-        form = CarAssignUpdateForm(request.POST, instance=self.get_object())
-        if form.is_valid():
-            assign = form.save(commit=False)
-            assign.drivers.add(request.user)
-            assign.save()
-            return redirect("blog:post-detail", pk=self.get_object().pk)
-        context = self.get_context_data()
-        context["form"] = form
-        return self.render_to_response(context)
