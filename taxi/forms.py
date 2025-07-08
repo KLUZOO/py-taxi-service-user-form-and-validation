@@ -58,9 +58,3 @@ class DriverCreateForm(UserCreationForm):
             raise ValidationError("Last 5 characters must be digits.")
 
         return license_
-
-
-class CarAssignUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Car
-        fields = ["drivers"]

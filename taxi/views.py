@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import (DriverLicenseUpdateForm,
                     DriverCreateForm,
-                    CarAssignUpdateForm)
+                    )
 from .models import Driver, Car, Manufacturer
 
 
@@ -65,12 +65,6 @@ class CarDetailView(LoginRequiredMixin, generic.DetailView):
     model = Car
     success_url = reverse_lazy("taxi:driver-list")
     template_name = "taxi/car_detail.html"
-    form_class = CarAssignUpdateForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["form"] = CarAssignUpdateForm()
-        return context
 
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -128,4 +122,3 @@ class DriverCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy("taxi:driver-list")
     form_class = DriverCreateForm
     template_name = "taxi/driver_form.html"
-
