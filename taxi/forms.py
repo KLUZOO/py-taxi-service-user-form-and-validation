@@ -60,12 +60,14 @@ class DriverCreateForm(UserCreationForm):
 
         return license_
 
+
 class CarForm(forms.ModelForm):
     drivers = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
+
     class Meta:
         model = Car
         fields = "__all__"
